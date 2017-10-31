@@ -21,6 +21,7 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 
+
 @app.route('/')
 def hello():
     return render_template('login.html')
@@ -60,6 +61,12 @@ def sign_up():
 		auth.send_email_verification(user['idToken'])
 
 	return json.dumps(user_details)
+	
+@app.route('/users', methods=['GET'])
+def get_users():
+	all_users = db.child("users").get()
+	all_users_val = all_users.val()
+	return json.dumps(all_users_val)	
 
 if __name__ == '__main__':
 	app.run()
