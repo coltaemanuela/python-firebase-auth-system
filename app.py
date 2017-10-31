@@ -32,7 +32,8 @@ def sign_in():
 	auth = firebase.auth()
 	user = auth.sign_in_with_email_and_password(email, password)
 	user = auth.refresh(user['refreshToken'])
-	return json.dumps (user)	
+	user_data = auth.get_account_info(user['idToken'])
+	return json.dumps (user_data)		
 
 @app.route('/signup', methods=['POST'])
 def sign_up():
@@ -47,7 +48,7 @@ def sign_up():
 		"email": request.form['email'],		
 		"telephone": request.form['telephone'],
 		"username": request.form['username'],
-		"street": request.form['street']
+		"street": request.form['street'],
 		"city": request.form['city'],
 		"postal_code": request.form['postal_code']
 	}
